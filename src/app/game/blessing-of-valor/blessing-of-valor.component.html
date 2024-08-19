@@ -1,0 +1,50 @@
+<div class="center-component">
+    <form [formGroup]="formBov">
+        <div class="card flex justify-content-center">
+            <p-card class="card-shadow" [style]="{ width: '360px' }">
+                <ng-template pTemplate="header">
+                    <img src="/assets/img/bov.png" class="hero-type-img"/>
+                </ng-template>
+                <p>
+                    <label for="withoutgrouping">Current level</label>
+                    <p-inputNumber 
+                        mode="decimal" 
+                        inputId="withoutgrouping" 
+                        [useGrouping]="false"
+                        class="centered w-full"
+                        styleClass="w-full"
+                        [min]="0" 
+                        [max]="680"
+                        [showButtons]="true"
+                        formControlName="iCurrentLevel" />
+    
+                    <label for="withoutgrouping">Aimed level</label>
+                    <p-inputNumber 
+                        mode="decimal" 
+                        inputId="withoutgrouping" 
+                        [useGrouping]="false"
+                        class="centered w-full"
+                        styleClass="w-full"
+                        [min]="0" 
+                        [max]="680"
+                        [showButtons]="true"
+                        formControlName="iAimedLevel" />
+                </p>
+                <ng-template pTemplate="footer">
+                    <div class="flex align-items-center text-center gap-3 mt-1"
+                        *ngIf="formBov.get('iCurrentLevel')?.value < formBov.get('iAimedLevel')?.value">
+                        <span>
+                            Amount of BoV required from level {{ formBov.get('iCurrentLevel')?.value }} to {{ formBov.get('iAimedLevel')?.value }} is <b>{{ getBovNeeded() }}</b>
+                        </span>
+                    </div>
+                    <div class="flex align-items-center text-center gap-3 mt-1"
+                        *ngIf="formBov.get('iCurrentLevel')?.value >= formBov.get('iAimedLevel')?.value">
+                        <span class="text-red-600">
+                            Note: Current level must be above zero and lower than the target level.
+                        </span>
+                    </div>
+                </ng-template>
+            </p-card>
+        </div>
+    </form>
+</div>

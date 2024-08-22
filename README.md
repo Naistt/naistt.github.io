@@ -1,5 +1,9 @@
-# GcKakaoGuide
+# GcKakaoGuide Owner note
 
+This is a project I idealized when playing Grand Chase Dimensional Chaser (KR: Grand Chase for Kakao) and is a way I found out to help me and other players to get some info easily enough. It'll be updated from time to time.
+
+
+## About the project infrastructure
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.2.
 
 ## Development server

@@ -1,0 +1,69 @@
+<div class="center-component">
+    <form [formGroup]="formBov">
+        <div class="card flex justify-content-center">
+            <p-card class="card-shadow" [style]="{ width: '360px' }">
+                <ng-template pTemplate="header">
+                    <div class="card-header">
+                        <img src="/assets/img/bov.png" class="img-banner"/>
+                    </div>
+                </ng-template>
+                <p>
+                    <label for="withoutgrouping">Current level:</label>
+                    <p-inputNumber 
+                        mode="decimal" 
+                        inputId="withoutgrouping" 
+                        [useGrouping]="false"
+                        class="centered w-full"
+                        styleClass="w-full"
+                        [min]="0" 
+                        [max]="680"
+                        [showButtons]="true"
+                        formControlName="iCurrentLevel"
+                        (ngModelChange)="getBovNeeded()" /><br />
+    
+                    <label for="withoutgrouping">Aimed level:</label>
+                    <p-inputNumber 
+                        mode="decimal" 
+                        inputId="withoutgrouping" 
+                        [useGrouping]="false"
+                        class="centered w-full"
+                        styleClass="w-full"
+                        [min]="0" 
+                        [max]="680"
+                        [showButtons]="true"
+                        formControlName="iAimedLevel"
+                        (ngModelChange)="getBovNeeded()" />
+                </p>
+                <p-divider />
+                <ng-template pTemplate="footer">
+                    <div class="flex align-items-center text-center gap-3 mt-1"
+                        *ngIf="formBov.get('iCurrentLevel')?.value < formBov.get('iAimedLevel')?.value">
+                        <span>
+                            Amount of
+                            <span [pTooltip]="tooltipFov" class="tooltip-fov">FoV</span>
+                            required from level {{ formBov.get('iCurrentLevel')?.value }} to {{ formBov.get('iAimedLevel')?.value }} is <b>{{iFovAmount}}</b>.
+                        </span>
+                        <span>
+                            Amount of
+                            <span [pTooltip]="tooltipBov" class="tooltip-fov">BoV</span>
+                            required from level {{ formBov.get('iCurrentLevel')?.value }} to {{ formBov.get('iAimedLevel')?.value }} is <b>{{ iBovAmount }}</b>.
+                        </span>
+                    </div>
+                    <div class="flex align-items-center text-center gap-3 mt-1"
+                        *ngIf="formBov.get('iCurrentLevel')?.value >= formBov.get('iAimedLevel')?.value">
+                        <span class="text-red-600">
+                            Note: Current level must be above zero and lower than the target level.
+                        </span>
+                    </div>
+                </ng-template>
+            </p-card>
+        </div>
+    </form>
+</div>
+
+<ng-template #tooltipFov>
+    <span class="tooltip">Fragment of Valor</span>
+</ng-template>
+<ng-template #tooltipBov>
+    <span class="tooltip">Blessing of Valor</span>
+</ng-template>

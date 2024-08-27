@@ -7,11 +7,14 @@ import { DividerModule } from 'primeng/divider';
 import { Table, TableModule } from 'primeng/table';
 import { Dungeon } from '../../../model/dungeon.model';
 import { ButtonModule } from 'primeng/button';
+import { CommonModule } from '@angular/common';
+import { FilterMatchMode, FilterService, SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-loot-filter',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     FormsModule,
     MultiSelectModule,
@@ -26,8 +29,9 @@ import { ButtonModule } from 'primeng/button';
 export class LootFilterComponent implements OnInit {
   formLootFilter!: FormGroup;
   worlds!: World[];
+  matchModeOptions!: SelectItem[];
   bossesType!: any[];
-  bossesElements!: any[];
+  bossesAttributes!: any[];
   allLoot!: any[];
   allLootFiltered!: any[];
 
@@ -42,7 +46,8 @@ export class LootFilterComponent implements OnInit {
   ];
 
 
-  constructor(private lootService: LootService) {
+  constructor(private lootService: LootService,
+              private filterService: FilterService) {
     
   }
 
@@ -50,7 +55,7 @@ export class LootFilterComponent implements OnInit {
     this.formLootFilter = new FormGroup({
       // worlds: new FormControl(''),
       // bossesType: new FormControl(''),
-      // bossesElements: new FormControl(''),
+      // bossesAttributes: new FormControl(''),
       filterLootFrmCtrl: new FormControl('')
     });
 
@@ -60,8 +65,42 @@ export class LootFilterComponent implements OnInit {
     console.log(this.allLoot)
     this.lootService.getAllWorlds().then((data) => (this.worlds = data));
     this.lootService.getBossesType().then((data) => (this.bossesType = data));
-    this.lootService.getBossesElement().then((data) => (this.bossesElements = data));
+    this.lootService.getBossesAttribute().then((data) => (this.bossesAttributes = data));
     
+
+    // CUSTOM FILTER FOR LOOT
+    // This was specially written because 'loot' is an array.
+    const customLootFilterName = 'custom-loot-filter';
+    this.filterService.register(customLootFilterName, (value: any, filter: any): boolean => {
+
+      // filter is always the string given by the user
+      // value is always the string we're searching for
+      if (filter === undefined || filter === null || filter.trim() === '') {
+        return true;
+      }
+
+      if (value === undefined || value === null) {
+        return false;
+      }
+
+      for (let i of value) {
+        if (i.name === undefined) {
+          i.name = ''; // handling "name is undefined" error
+          continue;
+        }
+
+        if (i.name.toString().toLowerCase().includes(filter.toString().toLowerCase()))
+          return true;
+        else
+          continue;
+      }
+      return false;
+    });
+    this.matchModeOptions = [
+      { label: 'Custom Equals', value: customLootFilterName }
+    ];
+
+    // END CUSTOM FILTER FOR LOOT
   }
 
   getDungeonLoot(loots: any) {
@@ -73,6 +112,7 @@ export class LootFilterComponent implements OnInit {
     this.searchValue = ''
   }
 
+  
   
   // applyFilterGlobal($event: any, stringVal: any) {
   //   console.log($event)

@@ -1,8 +1,7 @@
 <div class="center-component">
     <form [formGroup]="formLootFilter">
         <div class="card flex justify-content-center">
-            <div class="display-inline-block">
-
+            <div>
                 <p-divider></p-divider>
 
                 <p-table
@@ -16,7 +15,7 @@
 
                     <ng-template pTemplate="caption">
                         <div class="flex">
-                            <p-button label="Clear all filters" [outlined]="true" icon="pi pi-filter-slash" (onClick)="clear(lootTable)" />
+                            <p-button label="Limpar todos os filtros" [outlined]="true" icon="pi pi-filter-slash" (onClick)="clear(lootTable)" />
                             <span class="p-input-icon-left ml-auto">
                                 <!-- <i class="pi pi-search"></i> -->
                                 <!-- <input
@@ -29,23 +28,43 @@
                             </span>
                         </div>
                     </ng-template>
-                    <ng-template pTemplate="header">
+                    <ng-template pTemplate="header" let-index="0">
                         <tr>
                             <th pSortableColumn="belongTo">
                                 <div class="flex align-items-center">
-                                    World
+                                    Mundo
                                     <p-columnFilter type="text" field="belongTo" display="menu" />
                                 </div>
                             </th>
                             <th pSortableColumn="name">
                                 <div class="flex align-items-center">
-                                    Dungeon
+                                    Calabouço
                                     <p-columnFilter type="text" field="name" display="menu" />
                                 </div>
                             </th>
-                            <th pSortableColumn="item.boss.class">Boss Type</th>
-                            <th pSortableColumn="item.boss.element">Boss Element</th>
-                            <th>Loot</th>
+                            <th pSortableColumn="boss.class">
+                                <div class="flex align-items-center">
+                                    Classe do Chefe
+                                    <p-columnFilter type="text" field="boss.class" display="menu" />
+                                </div>
+                            </th>
+                            <th pSortableColumn="boss.attribute">
+                                <div class="flex align-items-center">
+                                    Atributo do Chefe
+                                    <p-columnFilter type="text" field="boss.attribute" display="menu" />
+                                </div>
+                            </th>
+                            <th>
+                                <div class="flex align-items-center">
+                                    Espólio
+                                </div>
+                                <p-columnFilter
+                                    type="text"
+                                    field="loot"
+                                    display="menu"
+                                    [matchMode]="'custom-loot-filter'"
+                                    [matchModeOptions]="matchModeOptions" />
+                            </th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-item>
@@ -58,10 +77,10 @@
                                 
                             </td>
                             <td>
-                                <img style="max-width: 22px; vertical-align: middle;" src='{{ "/assets/img/hero-attribute/ATTR-" + item.boss.element.toString() + ".png" }}' />
-                                {{ item.boss.element }}
+                                <img style="max-width: 22px; vertical-align: middle;" src='{{ "/assets/img/hero-attribute/ATTR-" + item.boss.attribute.toString() + ".png" }}' />
+                                {{ item.boss.attribute }}
                             </td>
-                            <td>{{ getDungeonLoot(item.loot) || "N/A" }}</td>
+                            <td>{{ getDungeonLoot(item.loot) || "N/A"}}</td>
                         </tr>
                     </ng-template>
                 </p-table>

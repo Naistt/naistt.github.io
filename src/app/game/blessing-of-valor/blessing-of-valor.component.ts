@@ -56,5 +56,8 @@ export class BlessingOfValorComponent implements OnInit {
   }
 
 
+  getBovNeededDays(iBovAmount: number, iBovPerRun: number) {
+    return Math.round(iBovAmount/iBovPerRun);
+  }
 
 }

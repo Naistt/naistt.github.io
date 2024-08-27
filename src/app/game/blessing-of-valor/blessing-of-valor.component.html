@@ -8,7 +8,7 @@
                     </div>
                 </ng-template>
                 <p>
-                    <label for="withoutgrouping">Current level:</label>
+                    <label for="withoutgrouping">Nível atual:</label>
                     <p-inputNumber 
                         mode="decimal" 
                         inputId="withoutgrouping" 
@@ -21,7 +21,7 @@
                         formControlName="iCurrentLevel"
                         (ngModelChange)="getBovNeeded()" /><br />
     
-                    <label for="withoutgrouping">Aimed level:</label>
+                    <label for="withoutgrouping">Nível alvo:</label>
                     <p-inputNumber 
                         mode="decimal" 
                         inputId="withoutgrouping" 
@@ -39,20 +39,20 @@
                     <div class="flex align-items-center text-center gap-3 mt-1"
                         *ngIf="formBov.get('iCurrentLevel')?.value < formBov.get('iAimedLevel')?.value">
                         <span>
-                            Amount of
+                            Quantidade de
                             <span [pTooltip]="tooltipFov" class="tooltip-fov">FoV</span>
-                            required from level {{ formBov.get('iCurrentLevel')?.value }} to {{ formBov.get('iAimedLevel')?.value }} is <b>{{iFovAmount}}</b>.
+                            requerida do nível {{ formBov.get('iCurrentLevel')?.value }} ao {{ formBov.get('iAimedLevel')?.value }} é de <b>{{ iFovAmount }}</b>.
                         </span>
                         <span>
-                            Amount of
+                            Quantidade de
                             <span [pTooltip]="tooltipBov" class="tooltip-fov">BoV</span>
-                            required from level {{ formBov.get('iCurrentLevel')?.value }} to {{ formBov.get('iAimedLevel')?.value }} is <b>{{ iBovAmount }}</b>.
+                            requerida do nível {{ formBov.get('iCurrentLevel')?.value }} ao {{ formBov.get('iAimedLevel')?.value }} é de <b>{{ iBovAmount }}</b>.
                         </span>
                     </div>
                     <div class="flex align-items-center text-center gap-3 mt-1"
                         *ngIf="formBov.get('iCurrentLevel')?.value >= formBov.get('iAimedLevel')?.value">
                         <span class="text-red-600">
-                            Note: Current level must be above zero and lower than the target level.
+                            Nota: O nível atual deve ser maior que zero e menor que o nível alvo.
                         </span>
                     </div>
                 </ng-template>
@@ -62,8 +62,9 @@
 </div>
 
 <ng-template #tooltipFov>
-    <span class="tooltip">Fragment of Valor</span>
+    <span class="tooltip">Fragmento da Bravura</span>
 </ng-template>
 <ng-template #tooltipBov>
-    <span class="tooltip">Blessing of Valor</span>
+    <span class="tooltip">Bênção da Bravura</span><br /><br />
+    Usando o nível 8 do Labirinto Fantasmagórico, você levaria aproximadamente {{ getBovNeededDays(iBovAmount, 710) }} dias para atingir o nível desejado.
 </ng-template>

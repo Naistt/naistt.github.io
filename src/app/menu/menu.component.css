@@ -2,7 +2,8 @@
 
 html {
     font-size: 14px;
-    
+    max-width: 5%;
+    display: inline;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
     padding: 2rem;
     border-radius: 10px;
     margin-bottom: 1rem;
-    width: 20rem;
+    width: 7rem;
+    position: absolute;
 }
 
